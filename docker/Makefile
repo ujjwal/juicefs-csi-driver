@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-IMAGE?=juicedata/juicefs-csi-driver
+IMAGE?=baseten/juicefs-csi-driver
 REGISTRY?=docker.io
 TARGETARCH?=amd64
-JUICEFS_IMAGE?=juicedata/mount
+JUICEFS_IMAGE?=baseten/mount
 VERSION=$(shell git describe --tags --match 'v*' --always --dirty)
-DASHBOARD_IMAGE?=juicedata/csi-dashboard
+DASHBOARD_IMAGE?=baseten/csi-dashboard
 DASHBOARD_TAG?=$(VERSION)
 DEV_TAG=dev-$(shell git describe --always --dirty)
 IMAGE_VERSION_ANNOTATED=$(IMAGE):$(VERSION)-juicefs$(shell docker run --entrypoint=/usr/bin/juicefs $(IMAGE):$(VERSION) version | cut -d' ' -f3)
@@ -28,7 +28,7 @@ JFS_PKG_URL=${JFSPKGURL}
 ifeq ($(strip $(JFS_PKG_URL)),)
   JFS_PKG_URL := https://static.juicefs.com/release/bin_pkgs/latest_stable_full.tar.gz
 endif
-JUICEFS_REPO_URL?=https://github.com/juicedata/juicefs
+JUICEFS_REPO_URL?=https://github.com/ujjwal/juicefs
 JUICEFS_REPO_REF?=$(JUICEFS_CE_LATEST_VERSION)
 MOUNT_TAG=${MOUNTTAG}
 CE_VERSION=${CEVERSION}

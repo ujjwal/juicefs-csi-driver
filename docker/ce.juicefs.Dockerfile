@@ -16,7 +16,7 @@ FROM golang:1.20-buster as binaryimage
 
 ARG GOPROXY
 ARG TARGETARCH
-ARG JUICEFS_REPO_URL=https://github.com/juicedata/juicefs
+ARG JUICEFS_REPO_URL=https://github.com/ujjwal/juicefs
 ARG JUICEFS_REPO_BRANCH=main
 ARG JUICEFS_REPO_REF=${JUICEFS_REPO_BRANCH}
 

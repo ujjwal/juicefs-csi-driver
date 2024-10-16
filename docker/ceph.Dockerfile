@@ -39,9 +39,9 @@ COPY .. .
 RUN make
 
 WORKDIR /workspace
-RUN git clone https://github.com/juicedata/juicefs-csi-driver && \
+RUN git clone https://github.com/ujjwal/juicefs-csi-driver && \
     cd juicefs-csi-driver && git checkout $JUICEFS_CSI_REPO_REF && make && \
-    cd /workspace && git clone --branch=$JUICEFS_REPO_BRANCH https://github.com/juicedata/juicefs && \
+    cd /workspace && git clone --branch=$JUICEFS_REPO_BRANCH https://github.com/ujjwal/juicefs && \
     cd juicefs && git checkout $JUICEFS_REPO_TAG && make juicefs.ceph && mv juicefs.ceph juicefs && upx juicefs
 
 FROM ${BASE_IMAGE}
