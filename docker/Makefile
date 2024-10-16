@@ -62,7 +62,7 @@ image-version:
 		--build-arg JUICEFS_CE_MOUNT_IMAGE=$(JUICEFS_IMAGE):$(CE_VERSION) \
 		--build-arg JUICEFS_EE_MOUNT_IMAGE=$(JUICEFS_IMAGE):$(EE_VERSION) \
 		--build-context project=.. \
-		--platform linux/amd64,linux/arm64 -f csi.Dockerfile . --push
+		--platform linux/amd64 -f csi.Dockerfile . --push
 
 .PHONY: push-version
 push-version:
