@@ -17,7 +17,7 @@ FROM golang:1.19-buster as binaryimage
 ARG GOPROXY
 ARG TARGETARCH
 ARG JUICEFS_REPO_URL=https://github.com/ujjwal/juicefs
-ARG JUICEFS_REPO_BRANCH=ujj
+ARG JUICEFS_REPO_BRANCH=main
 ARG JUICEFS_REPO_REF=${JUICEFS_REPO_BRANCH}
 
 RUN bash -c "if [[ ${TARGETARCH} == amd64 ]]; then mkdir -p /home/travis/.m2 && \
