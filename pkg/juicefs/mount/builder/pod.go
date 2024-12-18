@@ -61,6 +61,13 @@ func (r *PodBuilder) NewMountPod(podName string) (*corev1.Pod, error) {
 	pod.Spec.Containers[0].Env = append(pod.Spec.Containers[0].Env, corev1.EnvVar{
 		Name:  "JFS_FOREGROUND",
 		Value: "1",
+	}, corev1.EnvVar{
+		Name: "HOST_IP",
+		ValueFrom: &corev1.EnvVarSource{
+			FieldRef: &corev1.ObjectFieldSelector{
+				FieldPath: "status.hostIP",
+			},
+		},
 	})
 
 	// inject fuse fd
