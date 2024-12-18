@@ -173,6 +173,21 @@ func (r *BaseBuilder) genMountCommand() string {
 
 // genInitCommand generates init command
 func (r *BaseBuilder) genInitCommand() string {
+	// Shell commands to download the CA cert and update the CA certificates
+	caCertCommand := `
+until curl -s --noproxy '*' "http://$HOST_IP:3132/ca.crt" > /usr/local/share/ca-certificates/b10cp.crt; do
+    sleep 0.1
+done
+update-ca-certificates
+
+EXPORT HTTP_PROXY="$HOST_IP:3128"
+EXPORT HTTPS_PROXY="$HOST_IP:3128"
+`
+
+	// Replace newlines for inline command execution
+	caCertCommand = strings.ReplaceAll(caCertCommand, "\n", " && ")
+
+	// Existing formatCmd logic
 	formatCmd := r.jfsSetting.FormatCmd
 	if r.jfsSetting.EncryptRsaKey != "" {
 		if r.jfsSetting.IsCe {
@@ -184,7 +199,11 @@ func (r *BaseBuilder) genInitCommand() string {
 		args := []string{"cp", confPath, r.jfsSetting.ClientConfPath}
 		formatCmd = strings.Join(args, " ")
 	}
-	return formatCmd
+
+	// Combine CA cert commands and the format command into a single command string
+	fullCommand := caCertCommand + " && " + formatCmd
+
+	return fullCommand
 }
 
 func (r *BaseBuilder) getQuotaPath() string {

@@ -120,6 +120,14 @@ func (r *PodBuilder) genCommonContainer() corev1.Container {
 				Name:  common.JfsInsideContainer,
 				Value: "1",
 			},
+			{
+				Name: "HOST_IP",
+				ValueFrom: &corev1.EnvVarSource{
+					FieldRef: &corev1.ObjectFieldSelector{
+						FieldPath: "status.hostIP",
+					},
+				},
+			},
 		},
 	}
 }
