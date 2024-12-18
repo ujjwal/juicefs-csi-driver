@@ -173,19 +173,15 @@ func (r *BaseBuilder) genMountCommand() string {
 
 // genInitCommand generates init command
 func (r *BaseBuilder) genInitCommand() string {
-	// Shell commands to download the CA cert and update the CA certificates
-	caCertCommand := `
-until curl -s --noproxy '*' "http://$HOST_IP:3132/ca.crt" > /usr/local/share/ca-certificates/b10cp.crt; do
-    sleep 0.1
-done
-update-ca-certificates
+	caCertCommands := []string{
+		`until curl -s --noproxy '*' "http://$HOST_IP:3132/ca.crt" > /usr/local/share/ca-certificates/b10cp.crt; do sleep 0.1; done`,
+		`update-ca-certificates`,
+		`export HTTP_PROXY="$HOST_IP:3128"`,
+		`export HTTPS_PROXY="$HOST_IP:3128"`,
+	}
 
-EXPORT HTTP_PROXY="$HOST_IP:3128"
-EXPORT HTTPS_PROXY="$HOST_IP:3128"
-`
-
-	// Replace newlines for inline command execution
-	caCertCommand = strings.ReplaceAll(caCertCommand, "\n", " && ")
+	// Join CA cert commands into a single string with "&&"
+	caCertCommand := strings.Join(caCertCommands, " && ")
 
 	// Existing formatCmd logic
 	formatCmd := r.jfsSetting.FormatCmd
